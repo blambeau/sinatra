@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'wlang'
+
+def _(file)
+  File.expand_path("../#{file}", __FILE__)
+end
+
+def replace_map(file)
+  file = _(file)
+  basename = File.basename(file, '.html')
+  content  = File.read(file)
+  content.gsub! /GraffleExport/, basename
+  File.open(file, 'w'){|io| io << content}
+end
+
+replace_map('1-rack-call.html')
+replace_map('2-dispatch.html')
+
+Kernel.system "wlang --output #{_('internals.html')} #{_('internals.wtpl')}"

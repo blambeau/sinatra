@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Sinatra Internals</title>
+  <script src="http://code.jquery.com/jquery-1.5.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="text/javascript">
+    function configDotRu() {
+      alert("coucou");
+    };
+  </script>
+</head>
+<body>
+
+<h1>Sinatra Internals</h1>
+
+<p>First, a rack application is simply a 
+<a href="http://chneukirchen.org/blog/archive/2007/02/introducing-rack.html">Rack middleware</a> 
+that is, a class responding to <code>call(env)</code>. Even if you use Sinatra without explicitely
+creating a Rack configuration (i.e. <code>config.ru</code>) or without making explicit usage of the  
+<code>Sinatra::Base</code> class, your web application will end up as an instance of that class.</p>
+
+<p>The Rack middleware contract is really simple at first glance: the <code>call</code> method takes 
+an <code>env</code> parameter (a Hash containing everything about the current HTTP request) and has
+to return a triple <code>[status, headers, body]</code> that represents the response to the request
+(see left-most arrows in the scenario below).</p>
+
+<map name="1-rack-call">
+	<area shape=rect coords="349,390,490,407" href="https://github.com/sinatra/sinatra/blob/master/lib/sinatra/base.rb#L766-771">
+	<area shape=rect coords="378,324,497,341" href="https://github.com/sinatra/sinatra/blob/master/lib/sinatra/base.rb#L800-811">
+	<area shape=poly coords="201,372,201,385,75,385,75,372,201,372" href="throwCatch()">
+	<area shape=poly coords="185,269,185,282,63,282,63,269,185,269" href="safeState()">
+	<area shape=poly coords="192,5,192,29,33,29,33,5,192,5" href="configDotRu()">
+	<area shape=rect coords="378,415,717,433" href="https://github.com/sinatra/sinatra/blob/master/lib/sinatra/base.rb#L772-795">
+	<area shape=rect coords="349,368,438,386" href="https://github.com/sinatra/sinatra/blob/master/lib/sinatra/base.rb#L766-771">
+	<area shape=rect coords="349,295,640,313" href="https://github.com/sinatra/sinatra/blob/master/lib/sinatra/base.rb#L766-771">
+	<area shape=rect coords="174,213,285,231" href="https://github.com/sinatra/sinatra/blob/master/lib/sinatra/base.rb#L581-583">
+</map>
+<img border=0 src="1-rack-call.jpg" usemap="#1-rack-call">
+
+
+<map name="2-dispatch">
+	<area shape=poly coords="475,262,475,290,317,290,317,262,475,262" href="safeState()">
+	<area shape=rect coords="87,288,219,307" href="https://github.com/sinatra/sinatra/blob/master/lib/sinatra/base.rb#L660-664">
+	<area shape=rect coords="87,244,144,263" href="https://github.com/sinatra/sinatra/blob/master/lib/sinatra/base.rb#L666-683">
+	<area shape=rect coords="87,198,227,218" href="https://github.com/sinatra/sinatra/blob/master/lib/sinatra/base.rb#L660-664">
+	<area shape=rect coords="87,153,152,173" href="https://github.com/sinatra/sinatra/blob/master/lib/sinatra/base.rb#L739-751">
+</map>
+<img border=0 src="2-dispatch.jpg" usemap="#2-dispatch">
+
+
+</body>
+</html>

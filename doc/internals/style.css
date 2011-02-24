@@ -1,0 +1,18 @@
+body{
+	font-family: corbel, 'lucida grande', helvetica, sans-serif;
+	font-size: 16px;
+	color: #212122;
+  width: 900px;
+  margin: 75px auto;  
+}
+.center {
+  text-align:center;  
+}
+p {
+  text-align: justify;
+}
+img {
+  display: block;
+  text-align: center;
+  margin: 25px auto;
+}
